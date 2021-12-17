@@ -1,26 +1,37 @@
-// Add your code here
-const formData = {
-    dogName: "Byron",
-    dogBreed: "Poodle",
+function submitData(name, email) {
+  const body = document.querySelector("body");
+
+
+  const submittedData = {
+    name: name,
+    email: email
   };
-  
-  // method: "POST" is missing from the object below
-  const configurationObject = {
+  const configObj = {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Accept: "application/json",
+      Accept: "application/json"
     },
-    body: JSON.stringify(formData),
+    body: JSON.stringify(submittedData)
   };
-  
-  fetch("http://localhost:3000/dogs", configurationObject)
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (object) {
-      console.log(object);
-    })
-    .catch(function (error) {
-      alert("Bad things! Ragnarők!");
-      console.log(error.message);
-    });
+
+
+  return fetch("http://localhost:3000/users", configObj)
+  .then( resp => resp.json() )
+  .then( json => {
+    console.log(json);
+    body.append(json.id);
+  })
+  .catch( error => {
+    alert("Bad JUJU");
+    console.log(error);
+    body.append(error);
+  });
+}
+
+function getData(id) {
+  return fetch(`http://localhost:3000/users/${id}`)
+  .then( resp => resp.json() )
+  .then( json => console.log(json))
+  .catch( error => console.log(error));
+}
